@@ -11,3 +11,4 @@ python-jose
 bcrypt
 python-multipart
 email-validator
+reportlab
