@@ -8,8 +8,21 @@ from app.core.database import Base
 
 class UserRole:
     CEO = "CEO"
+    PCA = "PCA"
     MANAGER = "MANAGER"
     EMPLOYEE = "EMPLOYEE"
+
+    @classmethod
+    def all(cls) -> set[str]:
+        return {cls.CEO, cls.PCA, cls.MANAGER, cls.EMPLOYEE}
+
+    @classmethod
+    def admin_roles(cls) -> tuple[str, ...]:
+        return (cls.CEO, cls.PCA)
+
+    @classmethod
+    def is_admin(cls, role: str) -> bool:
+        return role in cls.admin_roles()
 
 
 class UserStatus:
@@ -26,6 +39,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     telefone: Mapped[str | None] = mapped_column(String(30))
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    password_changed_at: Mapped[datetime | None] = mapped_column(DateTime)
     cargo: Mapped[str | None] = mapped_column(String(100))
     departamento_id: Mapped[int | None] = mapped_column(ForeignKey("departments.id"), index=True)
     role: Mapped[str] = mapped_column(String(20), default=UserRole.EMPLOYEE, nullable=False)

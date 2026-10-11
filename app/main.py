@@ -12,6 +12,7 @@ from app.core.database import SessionLocal
 from app.routers import audit, auth, dashboard, departments, notifications, productivity, reports, tasks, users
 from app.services.task_service import mark_overdue_tasks
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("clop")
 
 UPLOAD_ROOT = Path(settings.UPLOAD_DIR)
@@ -40,6 +41,10 @@ def _run_overdue_scan() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    logger.info(
+        "Origens CORS permitidas: %s",
+        ", ".join(settings.cors_origins_list) or "(nenhuma)",
+    )
     task = asyncio.create_task(_overdue_loop())
     try:
         yield

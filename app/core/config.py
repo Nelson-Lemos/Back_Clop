@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     SEED_ADMIN_EMAIL: str = "admin@clop.academy"
     SEED_ADMIN_PASSWORD: str = "ChangeMe_2026!"
 
+    SEED_PCA_NAME: str = "PCA Admin"
+    SEED_PCA_EMAIL: str = "pca@clop.academy"
+    SEED_PCA_PASSWORD: str = "ChangeMe_2026!"
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
